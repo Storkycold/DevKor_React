@@ -107,7 +107,6 @@ function App() {
       {/* <input onChange = {((e)=> {console.log(e.target.value)})}/> 실습3-1. */}
       {/* <input onChange = {((e) => inputFunc(e.target.value))}/> */}
       {/* {inputvalue}  */}
-      {/* 현재 inputvalue는 잘 받아오고 있음  */}
       <input className="input-text" type='text' value={inputvalue} onChange={e => inputFunc(e.target.value)}>
       </input>
 
