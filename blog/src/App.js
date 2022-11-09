@@ -9,6 +9,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // css 추가해주는 문장. �
 
 function App() {
   const [title, setTitle] = useState(["남자 코트 추천", "강남 우동 맛집", "파이썬 독학"]);
+  const [modal, setModal] = useState(false); 
+  const [contents, setContents] = useState(["본문1", "본문2", "본문3"]); 
+  const [lists, setLists] = useState([]); // 실습 4
+  const [inputvalue, inputFunc] = useState(''); // 실습 3-2
+  // const blogs = useState([]); 
+  let itr = [...title]; 
 
   const array_sort = () => {
     let arr = [...title]; 
@@ -41,22 +47,98 @@ function App() {
       setTitle(["남자 코트 추천", "강남 우동 맛집", "파이썬 독학"])
     }
   }
-
   // Problem 3
 
+  const onChange = (e) => { 
+    inputFunc(e.target.value); 
+  }
+
+  const PostTitle = (props) => { 
+      return (
+        <section>
+          <h5>{props.title}</h5>
+          <p>{props.contents}</p>
+        </section>
+      ) 
+  }
+
+  const CreateInput = (props) => {
+      return (
+        <section> 
+            <h5>{props.val}</h5>
+            <p>{props.contents}</p>
+        </section> 
+      )
+  }
+
+  // function addinput() { 
+  //   // e.preventDefault(); 
+  //   let arr_lists = [...title];  
+  //   arr_lists = arr_lists.concat(inputvalue); 
+  //   setTitle(arr_lists);
+  //   inputFunc(''); 
+  // } 
+
+  // const input_list = lists.map((list) => (
+  //   <li
+  //     /*고유 key값 주기*/
+  //     key={list.id} 
+  //     /*더블클릭시 삭제할 이벤트*/
+  //     // onClick={() => removeList(list.id)} 
+  //   >
+  //     {list.text}
+  //   </li>
+  // ));
+
+  //const removeList = (id) => { 
+  //  const about_lists = lists.filter((list) => list.id !== id);
+  //  setLists(about_lists);
+  //}
+
+  // return 
   return (
     <>
     <div className="body">
     <div className="blog_title">
         <p className="blog_header">ReactBlog</p>
     </div>
-      {/* <br /> */}
+    {/* 실습3 start */}
+    <div> 
+      {/* <input onChange = {((e)=> {console.log(e.target.value)})}/> 실습3-1. */}
+      {/* <input onChange = {((e) => inputFunc(e.target.value))}/> */}
+      {/* {inputvalue}  */}
+      {/* 현재 inputvalue는 잘 받아오고 있음  */}
+      <input className="input-text" type='text' value={inputvalue} onChange={e => inputFunc(e.target.value)}>
+      </input>
+
+      <button onClick={() => {
+        let input_text = document.querySelector('.input-text'); 
+        if(input_text.value != '') {
+          let new_arr = [...title]; 
+          new_arr.push(input_text.value); 
+          setTitle(new_arr); 
+        }
+      }}>
+        글 추가 
+      </button>
+      
+    </div> 
+    {/* 실습3 end */}
+
       <div className="blog_body">
-        <div className="container">
-          <h5 className="body_title">{title[0]}</h5>
-          <br /> 
-          <p className="body_title">2월 17일 발행</p>
-        </div>
+        {
+          itr.map(function() {
+            return(        
+            <div className="container">
+            <h5 className="body_title" onClick={ () => {setModal(!modal)}}> 
+              {modal ? <PostTitle /> : null} {title[0]}
+            </h5>
+            <br /> 
+            <p className="body_title">2월 17일 발행</p>
+            <br />
+          </div>)
+          })
+        }
         {/* <br /> */}
         <hr></hr>
         <div className="container">
@@ -79,8 +161,10 @@ function App() {
       <button onClick={onClick_copy}>{title[0]}(바꾸는용) 
       </button>
     </div>
+
     </>
   );
+
 }
 
 export default App;
